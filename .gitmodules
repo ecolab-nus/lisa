@@ -1,3 +1,4 @@
 [submodule "lisa_gnn"]
 	path = lisa_gnn
 	url = https://github.com/ecolab-nus/lisa_gnn
+	branch = main
