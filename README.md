@@ -1,6 +1,6 @@
 # LISA
 
-LISA,  <u>**L**</u>earning <u>**I**</u>nduced mapping for <u>**S**</u>patial <u>**A**</u>ccelerators,  is a protable framework to map DFG (dataflow graph, representing an application) on spatial accelerators. For a new spatial accelerator, LISA can automatically tune its paprapemeters to adapt to the accelerator characteristics to generate high quality mapping. 
+LISA,  <u>**L**</u>earning <u>**I**</u>nduced mapping for <u>**S**</u>patial <u>**A**</u>ccelerators,  is a portable framework to map DFG (dataflow graph, representing an application) on spatial accelerators. For a new spatial accelerator, LISA can automatically tune its parameters to adapt to the accelerator characteristics to generate high quality mapping. 
 
 ## Framework
 
@@ -11,11 +11,11 @@ Overview of LISA framework: 1. Generate training data 2. Build GNN Model. 3. GNN
 
 
 ### Directory Structure
-We implment the mapper component in [CGRA-ME](https://cgra-me.ece.utoronto.ca/). GNN-related stuff is stored in lisa_gnn folder.
+We implment the mapper component in [CGRA-ME](https://cgra-me.ece.utoronto.ca/). GNN-related stuff is stored in `lisa_gnn` folder.
 ```
 lisa
 │   README.md
-│   lisa.patch    
+│   lisa_mapper.patch    
 │   overview.jpg
 └───lisa_gnn  (GNN related stuff: train dataset, GNN model, and DFG generator)
 │   │
@@ -30,7 +30,9 @@ lisa
 │   │   │   |─── cgra_me_3_3 (3x3 CGRA label, and CGRA is modeled by CGRA-ME)
 │   │   │   └─── cgra_me_4_4 (4x4 CGRA label, and CGRA is modeled by CGRA-ME)
 │   │   │
-│   │───dfg_generator (Generate random DFGs for a train set)
+│   │   │─── infer (the directory to store temporary DFGs.)
+│   │   │
+│   │───dfg_generator (Generate train set)
 │   │   │
 │   └───lisa_gnn_model (GNN models)
 │   │   │─── gnn_inference.py 
@@ -65,17 +67,17 @@ lisa
 ### Build on your machine
 * Download source code: ``$ git clone --recurse-submodules  https://github.com/ecolab-nus/lisa.git``. 
 * Make sure you have installed **Anaconda**.
-* Downaload [lisa environment file](https://github.com/ecolab-nus/lisa/blob/main/ae_hpca_readme.txt). Create LISA environment with: ``$ conda env create -f lisa.yml``.
+* Go to ``lisa`` directory. Create LISA environment with: ``$ conda env create -f lisa.yml``.
 * Download [CGRA-ME](https://cgra-me.ece.utoronto.ca/) into ``lisa/`` (the location of github repo) and rename as ``cgra_me``. Please follow the tutorial in CGRA-ME to install dependencies, build it, and run the example.
 * Apply our mapper patch for CGRA-ME (in ``lisa/cgra_me``):  ``$ patch -p1<../lisa_mapper.patch``. Rebuild cgra_me.
 
 ### Build with Docker
-* Download the [docker file](https://github.com/ecolab-nus/lisa/blob/main/Dockerfile) and [conda envireonment](https://github.com/ecolab-nus/lisa/blob/main/lisa.yml). Create an empty folder and put the two files into the folder. 
+* Download the [docker file](https://github.com/ecolab-nus/lisa/blob/main/Dockerfile) and [conda envireonment](https://github.com/ecolab-nus/lisa/blob/main/lisa.yml). Create an empty folder and put the above two files into the folder. 
 * Build lisa image: ``$ docker build ./ -t lisa``. This takes around 15 minutes.
 * Initalize: ``$ docker run --name lisa_ae -it lisa``  
 * Start the container: ``$ docker start lisa_ae``
 * Get into the container: ``docker exec -it lisa_ae /bin/bash``
-* Download [CGRA-ME](https://cgra-me.ece.utoronto.ca/) and decompress it into ``/home/lzy/lisa/``. As we have installed all the software dependencies in the docker image, downloading CGRA-ME is enough. 
+* Download [CGRA-ME](https://cgra-me.ece.utoronto.ca/), decompress it into ``/home/lzy/lisa/``, and rename as ``cgra_me``. As we have installed all the software dependencies in the docker image, downloading CGRA-ME is enough. 
 * Apply our mapper patch for CGRA-ME (in ``lisa/cgra_me``):  ``$ patch -p1<../lisa_mapper.patch``
 * Build new CGRA-ME (in ``lisa/cgra_me``): 1) Activate environment: ``$ ./cgrame_env``. 2) Build: ``$ make -j``
   
@@ -90,10 +92,10 @@ We use CGRA_ME and 4x4 CGRA for the follwing examples. Here, we show how to map 
 
 1. Go to cgra_me directory (lisa/cgra_me). Activate environment by ``./cgrame_env``.
 2. Activate environment: ``conda activate lisa``
-3. Run the mapper. ``$CGRA_MAPPER -m 2 --II 20 --inef --arch_name cgra_me_4_4 -g ./benchmarks/polybench/cholesky/my_graph_loop.dot b --xml ./arch/simple/target_arch/arch-homo-orth_4_4.xml --cgra_x 6 --cgra_y 6`` (Note, as the outmost PEs in this arch are I/O ports, we mark the CGRA as 4x4 CGRA though it has 6x6 size.)
+3. Run the mapper. ``$CGRA_MAPPER -m 2 --II 20 --inef --arch_name cgra_me_4_4 -g ./benchmarks/polybench/cholesky/my_graph_loop.dot  --xml ./arch/simple/target_arch/arch-homo-orth_4_4.xml --cgra_x 6 --cgra_y 6`` (Note, as the outmost PEs in this arch are I/O ports, we mark the CGRA as 4x4 CGRA though it has 6x6 size.)
 
 
-# Protability: workflow to use LISA for a new accelerator
+# Portability: workflow to use LISA for a new accelerator
 Let us say we have a new accelerator- 8x8 CGRA in CGRA-ME. And we name it as cgra_me_8_8. We have created this arch in cgra_me ( ``cgra_me/arch/simple/target_arch/arch-homo-orth_8_8.xml ``).
 
 ## Generate GNN train set for LISA.
