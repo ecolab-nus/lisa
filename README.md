@@ -63,20 +63,20 @@ lisa
 ## How to install
 
 ### Build on your machine
-* Download source code: ``$ git clone --recurse-submodules  https://github.com/zhaoying-LI/lisa.git``. 
+* Download source code: ``$ git clone --recurse-submodules  https://github.com/ecolab-nus/lisa.git``. 
 * Make sure you have installed **Anaconda**.
-* Downaload [lisa environment file](https://github.com/zhaoying-LI/lisa/blob/main/ae_hpca_readme.txt). Create LISA environment with: ``$ conda env create -f lisa.yml``.
-* Download [CGRA-ME](https://cgra-me.ece.utoronto.ca/) into ``lisa/` (the location of github repo). Please follow the tutorial in CGRA-ME to install dependencies, build it, and run the example.
+* Downaload [lisa environment file](https://github.com/ecolab-nus/lisa/blob/main/ae_hpca_readme.txt). Create LISA environment with: ``$ conda env create -f lisa.yml``.
+* Download [CGRA-ME](https://cgra-me.ece.utoronto.ca/) into ``lisa/`` (the location of github repo) and rename as ``cgra_me``. Please follow the tutorial in CGRA-ME to install dependencies, build it, and run the example.
 * Apply our mapper patch for CGRA-ME (in ``lisa/cgra_me``):  ``$ patch -p1<../lisa_mapper.patch``. Rebuild cgra_me.
 
 ### Build with Docker
-* Download the [docker file](https://github.com/zhaoying-LI/lisa/blob/main/Dockerfile) and [conda envireonment](https://github.com/zhaoying-LI/lisa/blob/main/lisa.yml). Create an empty folder and put the two files into the folder. 
+* Download the [docker file](https://github.com/ecolab-nus/lisa/blob/main/Dockerfile) and [conda envireonment](https://github.com/ecolab-nus/lisa/blob/main/lisa.yml). Create an empty folder and put the two files into the folder. 
 * Build lisa image: ``$ docker build ./ -t lisa``. This takes around 15 minutes.
 * Initalize: ``$ docker run --name lisa_ae -it lisa``  
 * Start the container: ``$ docker start lisa_ae``
 * Get into the container: ``docker exec -it lisa_ae /bin/bash``
 * Download [CGRA-ME](https://cgra-me.ece.utoronto.ca/) and decompress it into ``/home/lzy/lisa/``. As we have installed all the software dependencies in the docker image, downloading CGRA-ME is enough. 
-* Apply our mapper patch for CGRA-ME (in ``lisa/cgra_me``):  ``$ patcj -p1<../lisa_mapper.patch``
+* Apply our mapper patch for CGRA-ME (in ``lisa/cgra_me``):  ``$ patch -p1<../lisa_mapper.patch``
 * Build new CGRA-ME (in ``lisa/cgra_me``): 1) Activate environment: ``$ ./cgrame_env``. 2) Build: ``$ make -j``
   
 
@@ -87,9 +87,10 @@ To reproduce the results, please check the appendix of our paper: **LISA: Graph 
 
 ### Map DFG using LISA
 We use CGRA_ME and 4x4 CGRA for the follwing examples. Here, we show how to map one DFG with LISA, i.e., GNN-based label-aware mapping, assuming we have generated the training data set and build GNN model. 
-1. Activate environment: ``conda activate lisa``
-2. Go to cgra_me directory (lisa/cgra_me). Activate environment by ``./cgrame_env``.
-3. Run the mapper. ``$CGRA_MAPPER -m 2 --II 20 --inef --arch_name cgra_me_4_4 -g ./benchmarks/microbench/conv2/my_graph_loop.dot b --xml ./arch/simple/target_arch/arch-homo-orth_4_4.xml --cgra_x 6 --cgra_y 6`` (Note, as the outmost PEs in this arch are I/O ports, we mark the CGRA as 4x4 CGRA though it has 6x6 size.)
+
+1. Go to cgra_me directory (lisa/cgra_me). Activate environment by ``./cgrame_env``.
+2. Activate environment: ``conda activate lisa``
+3. Run the mapper. ``$CGRA_MAPPER -m 2 --II 20 --inef --arch_name cgra_me_4_4 -g ./benchmarks/polybench/cholesky/my_graph_loop.dot b --xml ./arch/simple/target_arch/arch-homo-orth_4_4.xml --cgra_x 6 --cgra_y 6`` (Note, as the outmost PEs in this arch are I/O ports, we mark the CGRA as 4x4 CGRA though it has 6x6 size.)
 
 
 # Protability: workflow to use LISA for a new accelerator

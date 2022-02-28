@@ -5,6 +5,8 @@ channels:
   - conda-forge
   - defaults
 dependencies:
+  - clang ==8.0.0
+  - llvmdev ==8.0.0
   - _libgcc_mutex=0.1=main
   - _openmp_mutex=4.5=1_gnu
   - blas=1.0=mkl
