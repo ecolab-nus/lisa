@@ -1,6 +1,6 @@
 # LISA
 
-LISA,  <u>**L**</u>earning <u>**I**</u>nduced mapping for <u>**S**</u>patial <u>**A**</u>ccelerators,  is a portable framework to map DFG (dataflow graph, representing an application) on spatial accelerators. For a new spatial accelerator, LISA can automatically tune its parameters to adapt to the accelerator characteristics to generate high quality mapping. 
+LISA,  <ins>**L**</ins>earning <ins>**I**</ins>nduced mapping for <ins>**S**</ins>patial <ins>**A**</ins>ccelerators,  is a portable framework to map DFG (dataflow graph, representing an application) on spatial accelerators. For a new spatial accelerator, LISA can automatically tune its parameters to adapt to the accelerator characteristics to generate high quality mapping.  Please find the [paper](https://www.comp.nus.edu.sg/~tulika/HPCA_LISA_2022.pdf) for more rerefence.
 
 ## Framework
 
@@ -109,5 +109,17 @@ Let us say we have a new accelerator- 8x8 CGRA in CGRA-ME. And we name it as cgr
 
 ## Map using GNN-derived label 
 
-* Activate the environment and run the mapper: ``$CGRA_MAPPER -m 2 --II 20 --inef --arch_name cgra_me_8_8 -g ./benchmarks/microbench/conv2/my_graph_loop.dot b --xml ./arch/simple/target_arch/arch-homo-orth_8_8.xml --cgra_x 10 --cgra_y 10`` 
+* Activate the environment and run the mapper: ``$CGRA_MAPPER -m 2 --II 20 --inef --arch_name cgra_me_8_8 -g ./benchmarks/microbench/conv2/my_graph_loop.dot --xml ./arch/simple/target_arch/arch-homo-orth_8_8.xml --cgra_x 10 --cgra_y 10`` 
 
+# Citation
+
+```
+@inproceedings{li2022lisa,
+  title={LISA: Graph Neural Network based Portable Mapping on Spatial Accelerators
+},
+  author={Li, Zhaoying and Wu, Dan and Wijerathne, Dhananjaya  and Mitra, Tulika},
+  booktitle={2022 IEEE International Symposium on High-Performance Computer Architecture (HPCA)},
+  year={2022},
+  organization={IEEE}
+}
+```
