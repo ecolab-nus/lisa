@@ -2,3 +2,6 @@
 	path = lisa_gnn
 	url = https://github.com/ecolab-nus/lisa_gnn
 	branch = main
+[submodule "morpher_mapper"]
+	path = morpher_mapper
+	url = https://github.com/ecolab-nus/Morpher_CGRA_Mapper
