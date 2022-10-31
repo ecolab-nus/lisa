@@ -18,7 +18,7 @@ LISA,  <ins>**L**</ins>earning <ins>**I**</ins>nduced mapping for <ins>**S**</in
 
 This picture shows the whole frameowork:
 
-<img src="https://ecolab-nus.github.io/images/morpher_framework.png" alt="drawing" width="700"/> \
+<img src="overview.jpg" alt="drawing" width="700"/> \
 Overview of LISA framework: 1. Generate training data 2. Build GNN Model. 3. GNN-based label-aware mapping.
 
 
